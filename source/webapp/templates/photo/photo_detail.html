@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="card mt-3" style="width: 18rem;">
+        <img src="{{ photo.image.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text">{{ photo.caption }}</p>
+            <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
+            <p class="card-text">{{ photo.created_at }}</p>
+            <p class="card-text">{{ photo.album }}</p>
+        </div>
+    </div>
+
+{% endblock %}
