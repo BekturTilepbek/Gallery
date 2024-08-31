@@ -37,7 +37,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.object == self.request.user:
-            print(1)
             albums = Album.objects.filter(author=self.object)
             photos = Photo.objects.filter(album=None, author=self.object)
         else:
