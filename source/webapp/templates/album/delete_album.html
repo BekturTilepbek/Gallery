@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h3>Вы действительно хотите удалить альбом {{ album.name }}?</h3>
+        <input type="submit" class="btn btn-danger" value="Да">
+        <a href="{% url 'webapp:photos' %}" class="btn btn-primary">Нет</a>
+    </form>
+{% endblock %}

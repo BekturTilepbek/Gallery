@@ -29,6 +29,12 @@
                                     фото</a>
                             </li>
                         {% endif %}
+                        {% if perms.webapp.add_album %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_album' %}">Создать
+                                    альбом</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 {% endblock %}
 

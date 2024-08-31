@@ -1,0 +1,40 @@
+<nav aria-label="..." class="d-flex mt-3">
+    <ul class="pagination mx-auto">
+        <li class="page-item">
+            <a href="?{% if search %}{{ search }}&{% endif %}page=1" class="page-link">&laquo; В начало</a>
+        </li>
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a href="?{% if search %}{{ search }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                   class="page-link">Назад</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Назад</span>
+            </li>
+        {% endif %}
+        <li class="page-item">
+            <form class="form-control d-flex" method="get">
+                <input type="hidden" name="search" value="{{ search_value }}">
+                <label for="page">
+                    Страница <input type="text" name="page" id="page" value="{{ page_obj.number }}" class="form-control">
+                    из {{ page_obj.paginator.num_pages }}.
+                </label>
+            </form>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a href="?{% if search %}{{ search }}&{% endif %}page={{ page_obj.next_page_number }}"
+                   class="page-link">Далее</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Далее</span>
+            </li>
+        {% endif %}
+        <li class="page-item">
+            <a href="?{% if search %}{{ search }}&{% endif %}page={{ page_obj.paginator.num_pages }}" class="page-link">В
+                конец &raquo;</a>
+        </li>
+    </ul>
+</nav>

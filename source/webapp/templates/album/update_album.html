@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block links %}
+	
+{% endblock %}
+
+{% block content %}
+    <h3 class="mb-3">Изменить альбом</h3>
+    <form action="" method="POST">
+        {% include 'partial/form.html' with button_text='Изменить' %}
+    </form>
+{% endblock %}

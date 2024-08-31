@@ -1,5 +1,5 @@
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from webapp.models import Photo
 from webapp.forms import PhotoForm
@@ -10,7 +10,7 @@ class PhotoListView(ListView):
     template_name = "photo/photos_list.html"
     ordering = ['-created_at']
     context_object_name = 'photos'
-    # paginate_by = 5
+    paginate_by = 5
 
     def get_queryset(self):
         return Photo.objects.filter(is_public=True).order_by('-created_at')
@@ -22,6 +22,8 @@ class CreatePhotoView(CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        if not form.instance.album.is_public:
+            form.instance.is_public = False
         return super().form_valid(form)
 
     def get_success_url(self):
