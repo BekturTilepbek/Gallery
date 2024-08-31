@@ -38,8 +38,6 @@ class UpdateAlbumView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        if not form.instance.album.is_public:
-            form.instance.is_public = False
         return super().form_valid(form)
 
     def has_permission(self):

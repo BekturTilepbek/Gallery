@@ -14,4 +14,4 @@ class AlbumForm(forms.ModelForm):
 
     class Meta:
         model = Album
-        fields = ("name", "description", "is_public")
+        fields = ("name", "description", "access")

@@ -1,0 +1,56 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$X130U2aYjEft1HtVCFW33d$eeJ3vwczC6niTjiLFdhjEvO2zvdKaQ9TM4Rj/k6NHv8=",
+    "last_login": "2024-08-31T13:36:40.197Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "Admin",
+    "last_name": "Adminovic",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-08-31T06:31:27.468Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$OZINSP0vrzsmDerNcn24gH$V4hURq2Byq0qrZUrvNNCMEQ6cSq+5unddUT1bDk6HyM=",
+    "last_login": "2024-08-31T13:47:50.795Z",
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "User1",
+    "last_name": "User1",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-08-31T08:42:42.788Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$LUh0ipIxeHsfwL8APN8Jlv$bbDJd3uRiZ/7Ce/Aw3NxYfHhtEvtJuLMmh0YROI4eyc=",
+    "last_login": "2024-08-31T12:35:40.071Z",
+    "is_superuser": false,
+    "username": "user2",
+    "first_name": "Second",
+    "last_name": "Userovic",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-08-31T12:35:39.617Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

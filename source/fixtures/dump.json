@@ -1,0 +1,183 @@
+[
+{
+  "model": "webapp.album",
+  "pk": 1,
+  "fields": {
+    "name": "Album 1",
+    "description": "",
+    "author": 1,
+    "created_at": "2024-08-31T07:13:15.129Z",
+    "access": "public",
+    "favorite_users": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 2,
+  "fields": {
+    "name": "User1's album",
+    "description": "",
+    "author": 2,
+    "created_at": "2024-08-31T11:52:04.167Z",
+    "access": "public",
+    "favorite_users": []
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 3,
+  "fields": {
+    "name": "User1's album 2",
+    "description": "",
+    "author": 2,
+    "created_at": "2024-08-31T12:00:13.710Z",
+    "access": "public",
+    "favorite_users": [
+      1
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 1,
+  "fields": {
+    "image": "images/rushing-big-bad-wolf_Ttc1zA1.gif",
+    "caption": "Big Wolf Running",
+    "created_at": "2024-08-31T06:39:02.428Z",
+    "author": 1,
+    "album": null,
+    "access": "public",
+    "access_token": "93c19ac3-7318-4bfe-aff1-bdf58204fa3d",
+    "favorite_users": []
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 2,
+  "fields": {
+    "image": "images/gojo.gif",
+    "caption": "Gojo Satoru",
+    "created_at": "2024-08-31T06:51:03.255Z",
+    "author": 1,
+    "album": null,
+    "access": "public",
+    "access_token": null,
+    "favorite_users": [
+      2
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 4,
+  "fields": {
+    "image": "images/geraltmeditating.jpg",
+    "caption": "Gerailt 2",
+    "created_at": "2024-08-31T07:13:46.231Z",
+    "author": 1,
+    "album": 1,
+    "access": "public",
+    "access_token": null,
+    "favorite_users": []
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 5,
+  "fields": {
+    "image": "images/acunitywallpaper.jpg",
+    "caption": "Arno Dorian",
+    "created_at": "2024-08-31T07:14:29.929Z",
+    "author": 1,
+    "album": 1,
+    "access": "public",
+    "access_token": "bf6edb68-f6bd-4f8c-b2d5-5dc668ad2463",
+    "favorite_users": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 6,
+  "fields": {
+    "image": "images/spiderman2018wallpapers.jpg",
+    "caption": "Spider MAn",
+    "created_at": "2024-08-31T07:14:43.880Z",
+    "author": 1,
+    "album": 1,
+    "access": "public",
+    "access_token": "158011d3-b9c6-4be9-b8c8-1a0ad16ac00c",
+    "favorite_users": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 7,
+  "fields": {
+    "image": "images/Vagabond.jpg",
+    "caption": "Vagabond",
+    "created_at": "2024-08-31T12:30:17.638Z",
+    "author": 2,
+    "album": 3,
+    "access": "public",
+    "access_token": "48d5863f-c215-4666-bd7b-031a324c4ea3",
+    "favorite_users": [
+      1
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 8,
+  "fields": {
+    "image": "images/kratosvsthorwallpaper.jpg",
+    "caption": "Kratos",
+    "created_at": "2024-08-31T13:08:46.574Z",
+    "author": 1,
+    "album": 1,
+    "access": "private",
+    "access_token": null,
+    "favorite_users": [
+      1
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 9,
+  "fields": {
+    "image": "images/rdr2wallpaper.jpg",
+    "caption": "RDR@",
+    "created_at": "2024-08-31T13:27:00.866Z",
+    "author": 1,
+    "album": null,
+    "access": "private",
+    "access_token": null,
+    "favorite_users": []
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 10,
+  "fields": {
+    "image": "images/pussinbootsredwolf.jpg",
+    "caption": "Another Wolf",
+    "created_at": "2024-08-31T13:31:11.426Z",
+    "author": 1,
+    "album": null,
+    "access": "public",
+    "access_token": "f3a82a2f-4fda-4a37-b67a-be2f6d0264f5",
+    "favorite_users": [
+      1
+    ]
+  }
+}
+]

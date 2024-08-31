@@ -12,26 +12,16 @@ async function makeRequest(url, method = "GET") {
 async function onClick(event) {
     event.preventDefault();
     let a = event.target;
-    a.disabled = true
 
     let url = a.href;
 
-    try {
-        let response = await makeRequest(url);
+    let response = await makeRequest(url);
 
-        if (response['in_favorites']) {
-            a.innerHTML = '<i class="bi bi-bookmark-fill" style="pointer-events: none"></i>';
-        } else {
-            a.innerHTML = '<i class="bi bi-bookmark" style="pointer-events: none"></i>';
-        }
+    if (response['in_favorites']) {
+        a.innerHTML = '<i class="bi bi-bookmark-fill" style="pointer-events: none"></i>';
+    } else {
+        a.innerHTML = '<i class="bi bi-bookmark" style="pointer-events: none"></i>';
     }
-    catch (error) {
-        console.log(error)
-    }
-    finally {
-        a.disabled = false
-    }
-
 }
 
 function onLoad() {

@@ -14,7 +14,7 @@
 
 {% block content %}
 
-    <p>{{ user_obj.first_name }} {{ user_obj.last_name }}</p>
+    <h2>{{ user_obj.first_name }} {{ user_obj.last_name }}</h2>
 
     {% if request.user.is_authenticated %}
         {% if user_obj == request.user %}
@@ -22,14 +22,14 @@
         {% endif %}
     {% endif %}
 
-    <h3 class="mb-3">Альбомы</h3>
+    <h3 class="mb-3 mt-3">Альбомы</h3>
     {% for album in albums %}
         <a href="{% url 'webapp:album_detail' album.pk %}">{{ album.name }}</a>
     {% empty %}
         <p>Альбомы не найдены</p>
     {% endfor %}
 
-    <h3 class="mb-3">Фотографии</h3>
+    <h3 class="mb-3 mt-3">Фотографии</h3>
 
     {% include 'partial/photos_list_partial.html' %}
 

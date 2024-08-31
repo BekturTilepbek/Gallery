@@ -16,17 +16,23 @@ class PhotoListView(ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        return Photo.objects.filter(is_public=True).order_by('-created_at')
+        return Photo.objects.filter(access='public').order_by('-created_at')
 
 
 class CreatePhotoView(LoginRequiredMixin, CreateView):
     template_name = "photo/create_photo.html"
     form_class = PhotoForm
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['album'].queryset = form.fields['album'].queryset.filter(author=self.request.user)
+        return form
+
     def form_valid(self, form):
         form.instance.author = self.request.user
-        if not form.instance.album.is_public:
-            form.instance.is_public = False
+        if form.instance.album:
+            if form.instance.album.access == 'private':
+                form.instance.access = 'private'
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -53,8 +59,9 @@ class UpdatePhotoView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        if not form.instance.album.is_public:
-            form.instance.is_public = False
+        if form.instance.album:
+            if form.instance.album.access == 'private':
+                form.instance.access = 'private'
         return super().form_valid(form)
 
     def has_permission(self):
