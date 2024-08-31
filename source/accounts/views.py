@@ -2,7 +2,7 @@ from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, View
 
 from accounts.forms import RegistrationForm
 from webapp.models import Album, Photo
@@ -42,6 +42,31 @@ class ProfileView(LoginRequiredMixin, DetailView):
         else:
             albums = Album.objects.filter(is_public=True)
             photos = Photo.objects.filter(album=None, is_public=True)
+
+        context['albums'] = albums
+        context['photos'] = photos
+
+        return context
+
+
+class UserFavoritesView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = "user_favorites.html"
+    context_object_name = "user_obj"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        albums = []
+        photos = []
+
+        for album in Album.objects.all():
+            if self.object in album.favorite_users.all():
+                albums.append(album)
+
+        for photo in Photo.objects.all():
+            if self.object in photo.favorite_users.all():
+                photos.append(photo)
 
         context['albums'] = albums
         context['photos'] = photos

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block links %}
     {% if request.user.is_authenticated %}
         <li class="nav-item">
@@ -13,10 +13,18 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <h3>Вы действительно хотите удалить это фото?</h3>
-        <input type="submit" class="btn btn-danger" value="Да">
-        <a href="{% url 'webapp:photos' %}" class="btn btn-primary">Нет</a>
-    </form>
+
+    <h1>Избранное пользователя {{ user_obj.first_name }} {{ user_obj.last_name }}</h1>
+
+    <h3 class="mb-3">Альбомы</h3>
+    {% for album in albums %}
+        <a href="{% url 'webapp:album_detail' album.pk %}">{{ album.name }}</a>
+    {% empty %}
+        <p>Альбомы не найдены</p>
+    {% endfor %}
+
+    <h3 class="mb-3">Фотографии</h3>
+
+    {% include 'partial/photos_list_partial.html' %}
+
 {% endblock %}

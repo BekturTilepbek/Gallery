@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -13,7 +13,7 @@ class PhotoListView(ListView):
     template_name = "photo/photos_list.html"
     ordering = ['-created_at']
     context_object_name = 'photos'
-    paginate_by = 5
+    paginate_by = 4
 
     def get_queryset(self):
         return Photo.objects.filter(is_public=True).order_by('-created_at')
@@ -51,6 +51,12 @@ class UpdatePhotoView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Photo
     permission_required = "webapp.change_photo"
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        if not form.instance.album.is_public:
+            form.instance.is_public = False
+        return super().form_valid(form)
+
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
 
@@ -68,9 +74,26 @@ class DeletePhotoView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
         return super().has_permission() or self.request.user == self.get_object().author
 
 
-class GenerateAccessToken(View):
+class GenerateAccessToken(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         photo = get_object_or_404(Photo, pk=kwargs['pk'])
-        photo.generate_access_token()
+        if self.request.user == photo.author:
+            photo.generate_access_token()
         return redirect('webapp:photo_detail', pk=photo.pk)
+
+
+class PhotoFavoriteView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        photo = get_object_or_404(Photo, pk=kwargs['pk'])
+        user = self.request.user
+
+        if user in photo.favorite_users.all():
+            photo.favorite_users.remove(user)
+            in_favorites = False
+        else:
+            photo.favorite_users.add(user)
+            in_favorites = True
+
+        return JsonResponse({'in_favorites': in_favorites})

@@ -1,6 +1,8 @@
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, View
 
 from webapp.models import Album, Photo
 from webapp.forms import AlbumForm
@@ -34,6 +36,12 @@ class UpdateAlbumView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Album
     permission_required = "webapp.change_album"
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        if not form.instance.album.is_public:
+            form.instance.is_public = False
+        return super().form_valid(form)
+
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
 
@@ -50,3 +58,18 @@ class DeleteAlbumView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
 
+
+class AlbumFavoriteView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        album = get_object_or_404(Album, pk=kwargs['pk'])
+        user = self.request.user
+
+        if user in album.favorite_users.all():
+            album.favorite_users.remove(user)
+            in_favorites = False
+        else:
+            album.favorite_users.add(user)
+            in_favorites = True
+
+        return JsonResponse({'in_favorites': in_favorites})

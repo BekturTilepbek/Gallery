@@ -13,6 +13,7 @@ class Photo(models.Model):
                               null=True, blank=True)
     is_public = models.BooleanField(default=True)
     access_token = models.CharField(max_length=200, unique=True, null=True, blank=True)
+    favorite_users = models.ManyToManyField(get_user_model(), related_name="favorite_photos")
 
     def generate_access_token(self):
         if not self.access_token:

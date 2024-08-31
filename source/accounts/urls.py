@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 
-from accounts.views import RegistrationView, ProfileView
+from accounts.views import RegistrationView, ProfileView, UserFavoritesView
 
 app_name = 'accounts'
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegistrationView.as_view(), name='register'),
     path('<int:pk>/profile/', ProfileView.as_view(), name='profile'),
+    path('<int:pk>/favorites/', UserFavoritesView.as_view(), name='favorites')
 ]

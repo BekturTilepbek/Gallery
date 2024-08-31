@@ -1,23 +1,60 @@
 {% extends 'base.html' %}
+{% block links %}
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_photo' %}">Создать
+                фото</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_album' %}">Создать
+                альбом</a>
+        </li>
+    {% endif %}
+{% endblock %}
 {% block content %}
 
-    <div class="card mt-3" style="width: 18rem;">
+    <div class="card mt-3 mx-auto w-50">
         <img src="{{ photo.image.url }}" class="card-img-top" alt="...">
+
         <div class="card-body">
-            <p class="card-text">{{ photo.caption }}</p>
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'accounts:profile' photo.author.pk %}">{{ photo.author.first_name }} {{ photo.author.last_name }}</a>
-            {% else %}
-                <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
-            {% endif %}
-            <p class="card-text">{{ photo.created_at }}</p>
-            {% if photo.album %}
+            <h5 class="card-title">{{ photo.caption }}</h5>
+
+            <div class="mb-3">
+                <p class="d-inline">Автор: </p>
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'webapp:album_detail' photo.album.pk %}">{{ photo.album }}</a>
+                    <a href="{% url 'accounts:profile' photo.author.pk %}">{{ photo.author.first_name }} {{ photo.author.last_name }}</a>
                 {% else %}
-                    <p class="card-text">{{ photo.album }}</p>
+                    <p class="card-text d-inline">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
                 {% endif %}
-            {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <p class="card-text">Дата создания: {{ photo.created_at|date:"d/m/Y H:i" }}</p>
+            </div>
+
+            <div class="mb-3">
+                <p class="d-inline">В альбомах: </p>
+                {% if photo.album %}
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'webapp:album_detail' photo.album.pk %}">{{ photo.album }}</a>
+                    {% else %}
+                        <p class="card-text d-inline">{{ photo.album }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <p class="d-inline">В избранном: </p>
+                {% for user in photo.favorite_users.all %}
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'accounts:profile' user.pk %}">{{ user.first_name }} {{ user.last_name }}</a>
+                    {% else %}
+                        <p class="card-text">{{ user.first_name }} {{ user.last_name }}</p>
+                    {% endif %}
+                {% empty %}
+                    <p class="card-text d-inline">Нет пользователей</p>
+                {% endfor %}
+            </div>
 
             {% if request.user == photo.author %}
                 {% if photo.access_token %}
@@ -25,23 +62,18 @@
                 {% endif %}
             {% endif %}
 
-            {% if request.user == photo.author %}
-                {% if not photo.access_token %}
-                    <a href="{% url 'webapp:generate_token' photo.pk %}" class="btn btn-primary">Token</a>
-                {% else %}
-                    <a href="{% url 'webapp:generate_token' photo.pk %}" class="btn btn-primary" disabled>Token</a>
-                {% endif %}
-            {% endif %}
-
             <div class="btn-group" role="group">
-
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'webapp:update_photo' photo.pk %}">Изменить</a>
-                    <a href="{% url 'webapp:delete_photo' photo.pk %}">Удалить</a>
-                {% endif %}
-
-
-                {% if request.user.is_authenticated %}
+                    {% if request.user == photo.author %}
+                        {% if photo.access_token %}
+                            <a href="{% url 'webapp:generate_token' photo.pk %}" class="btn btn-primary"
+                               style="pointer-events: none">Token</a>
+                        {% else %}
+                            <a href="{% url 'webapp:generate_token' photo.pk %}" class="btn btn-primary">Token</a>
+                        {% endif %}
+                    {% endif %}
+                    <a href="{% url 'webapp:photo_detail' photo.pk %}" class="btn btn-primary"><i
+                            class="bi bi-blockquote-right"></i></a>
                     {% if perms.webapp.change_photo or request.user == photo.author %}
                         <a href="{% url "webapp:update_photo" photo.pk %}"
                            class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
@@ -50,11 +82,16 @@
                         <a href="{% url "webapp:delete_photo" photo.pk %}" class="btn btn-primary"><i
                                 class="bi bi-trash3"></i></a>
                     {% endif %}
+                    <a href="{% url 'webapp:photo_to_favorites' photo.pk %}" data-js="favorite"
+                       class="btn btn-primary">
+                        {% if request.user in photo.favorite_users.all %}
+                            <i class="bi bi-bookmark-fill" style="pointer-events: none"></i>
+                        {% else %}
+                            <i class="bi bi-bookmark" style="pointer-events: none"></i>
+                        {% endif %}
+                    </a>
                 {% endif %}
             </div>
-
-
         </div>
     </div>
-
 {% endblock %}
